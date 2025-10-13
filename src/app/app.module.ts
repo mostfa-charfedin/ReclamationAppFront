@@ -10,13 +10,17 @@ import { AuthService } from './Services/auth.service';
 import { NavbarComponent } from './navbar/navbar.component';
 import { RegisterComponent } from './register/register.component';
 import { LoginComponent } from './login/login.component';
+import { UserReclamationComponent } from './user-reclamation/user-reclamation.component';
+import { UserReclamationBoardComponent } from './user-reclamation-board/user-reclamation-board.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
     RegisterComponent,
-    LoginComponent
+    LoginComponent,
+    UserReclamationComponent,
+
   ],
   imports: [
     BrowserModule,
@@ -25,6 +29,7 @@ import { LoginComponent } from './login/login.component';
     FormsModule,
     DragDropModule,
     HttpClientModule,
+    UserReclamationBoardComponent,
   ],
   providers: [
     provideClientHydration(),
