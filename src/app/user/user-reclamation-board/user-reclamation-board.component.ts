@@ -1,16 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-
 import { CommonModule } from '@angular/common';
 import { CdkDragDrop, DragDropModule, moveItemInArray } from '@angular/cdk/drag-drop';
-import { AuthService } from '../Services/auth.service';
-import { ReclamationService } from '../Services/reclamathion.service';
+import { AuthService } from '../../Services/auth.service';
+import { ReclamationService } from '../../Services/reclamathion.service';
 
 @Component({
   selector: 'app-user-reclamation-board',
   templateUrl: './user-reclamation-board.component.html',
   styleUrl: './user-reclamation-board.component.scss',
-  standalone: true,
-  imports: [CommonModule, DragDropModule],
+ 
 })
 export class UserReclamationBoardComponent implements OnInit {
   reclamations: any[] = [];

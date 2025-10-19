@@ -2,15 +2,17 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
-import { User } from '../Models/user';
-import { RegisterRequest } from '../Models/register-request';
 import { AuthResponse } from '../Models/authResponse';
 import { LoginRequest } from '../Models/loginRequest';
+import { RegisterRequest } from '../Models/register-request';
+import { User } from '../Models/user';
+
 
 
 @Injectable({
   providedIn: 'root'
 })
+
 export class AuthService {
   private apiUrl = 'http://localhost:8083/api/auth';
   private currentUserSubject = new BehaviorSubject<User | null>(null);

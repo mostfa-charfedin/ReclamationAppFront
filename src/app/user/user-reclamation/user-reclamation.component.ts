@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AuthService } from '../Services/auth.service';
-import { ReclamationService } from '../Services/reclamathion.service';
+import { AuthService } from '../../Services/auth.service';
+import { ReclamationService } from '../../Services/reclamathion.service';
 
 @Component({
   selector: 'app-user-reclamation',

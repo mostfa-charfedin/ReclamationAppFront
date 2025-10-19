@@ -1,0 +1,202 @@
+<div class="bg-white rounded-2xl shadow-lg border border-gray-200 p-6">
+  <!-- En-tête -->
+  <div class="flex items-center justify-between mb-6">
+    <h3 class="text-xl font-bold text-gray-800">Statistiques des réclamations</h3>
+    <button (click)="loadStats()"
+            class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg text-sm font-semibold transition-colors duration-200 flex items-center">
+      <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+      </svg>
+      Actualiser
+    </button>
+  </div>
+
+  <!-- Cartes de statistiques -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+    <!-- Réclamations totales -->
+    <div class="bg-gradient-to-r from-red-500 to-red-600 rounded-xl p-6 text-white shadow-lg">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-red-100 text-sm font-medium">Total</p>
+          <p class="text-3xl font-bold mt-2">{{ stats.total || 0 }}</p>
+          <p class="text-red-100 text-sm mt-1">Réclamations</p>
+        </div>
+        <div class="w-12 h-12 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- Réclamations nouvelles -->
+    <div class="bg-gradient-to-r from-yellow-500 to-yellow-600 rounded-xl p-6 text-white shadow-lg">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-yellow-100 text-sm font-medium">Nouvelles</p>
+          <p class="text-3xl font-bold mt-2">{{ stats.nouvelles || 0 }}</p>
+          <p class="text-yellow-100 text-sm mt-1">En attente</p>
+        </div>
+        <div class="w-12 h-12 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- Réclamations en cours -->
+    <div class="bg-gradient-to-r from-blue-500 to-blue-600 rounded-xl p-6 text-white shadow-lg">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-blue-100 text-sm font-medium">En cours</p>
+          <p class="text-3xl font-bold mt-2">{{ stats.enCours || 0 }}</p>
+          <p class="text-blue-100 text-sm mt-1">En traitement</p>
+        </div>
+        <div class="w-12 h-12 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- Réclamations résolues -->
+    <div class="bg-gradient-to-r from-green-500 to-green-600 rounded-xl p-6 text-white shadow-lg">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-green-100 text-sm font-medium">Résolues</p>
+          <p class="text-3xl font-bold mt-2">{{ stats.resolues || 0 }}</p>
+          <p class="text-green-100 text-sm mt-1">Terminées</p>
+        </div>
+        <div class="w-12 h-12 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Graphique et répartition -->
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+    <!-- Graphique circulaire -->
+    <div class="bg-gray-50 rounded-xl p-6 border border-gray-200">
+      <h4 class="text-lg font-semibold text-gray-800 mb-4">Répartition par statut</h4>
+      <div class="flex items-center justify-center h-64">
+        <div *ngIf="chartData" class="relative">
+          <!-- Graphique simple avec des cercles -->
+          <div class="grid grid-cols-2 gap-4">
+            <div *ngFor="let item of chartData.labels; let i = index"
+                 class="flex items-center p-3 bg-white rounded-lg border border-gray-200">
+              <div class="w-4 h-4 rounded-full mr-3"
+                   [style.background-color]="chartData.datasets[0].backgroundColor[i]"></div>
+              <div class="flex-1">
+                <div class="flex justify-between items-center">
+                  <span class="text-sm font-medium text-gray-700">{{ item }}</span>
+                  <span class="text-lg font-bold text-gray-900">{{ chartData.datasets[0].data[i] }}</span>
+                </div>
+                <div class="w-full bg-gray-200 rounded-full h-2 mt-1">
+                  <div class="h-2 rounded-full"
+                       [style.background-color]="chartData.datasets[0].backgroundColor[i]"
+                       [style.width]="(chartData.datasets[0].data[i] / (stats.total || 1)) * 100 + '%'"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="!chartData" class="text-center text-gray-500">
+          <svg class="w-12 h-12 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+          </svg>
+          <p>Chargement des données...</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Détails des statistiques -->
+    <div class="bg-gray-50 rounded-xl p-6 border border-gray-200">
+      <h4 class="text-lg font-semibold text-gray-800 mb-4">Détails des performances</h4>
+      <div class="space-y-4">
+        <!-- Taux de résolution -->
+        <div class="bg-white p-4 rounded-lg border border-gray-200">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-sm font-medium text-gray-700">Taux de résolution</span>
+            <span class="text-lg font-bold text-green-600">
+              {{ stats.total ? ((stats.resolues / stats.total) * 100).toFixed(1) : 0 }}%
+            </span>
+          </div>
+          <div class="w-full bg-gray-200 rounded-full h-2">
+            <div class="h-2 rounded-full bg-green-500"
+                 [style.width]="(stats.total ? (stats.resolues / stats.total) * 100 : 0) + '%'"></div>
+          </div>
+        </div>
+
+        <!-- Temps moyen de traitement -->
+        <div class="bg-white p-4 rounded-lg border border-gray-200">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-sm font-medium text-gray-700">Temps moyen de traitement</span>
+            <span class="text-lg font-bold text-blue-600">
+              {{ stats.tempsMoyenTraitement || 'N/A' }}
+            </span>
+          </div>
+          <p class="text-xs text-gray-500">Jours</p>
+        </div>
+
+        <!-- Réclamations ce mois -->
+        <div class="bg-white p-4 rounded-lg border border-gray-200">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-sm font-medium text-gray-700">Réclamations ce mois</span>
+            <span class="text-lg font-bold text-red-600">
+              {{ stats.ceMois || 0 }}
+            </span>
+          </div>
+          <p class="text-xs text-gray-500">Mois en cours</p>
+        </div>
+
+        <!-- Satisfaction client -->
+        <div class="bg-white p-4 rounded-lg border border-gray-200">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-sm font-medium text-gray-700">Satisfaction client</span>
+            <span class="text-lg font-bold text-yellow-600">
+              {{ stats.satisfaction || 'N/A' }}
+            </span>
+          </div>
+          <div class="flex items-center space-x-1">
+            <svg *ngFor="let i of [1,2,3,4,5]"
+                 class="w-4 h-4"
+                 [class.text-yellow-400]="i <= (stats.satisfaction || 0)"
+                 [class.text-gray-300]="i > (stats.satisfaction || 0)"
+                 fill="currentColor" viewBox="0 0 20 20">
+              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Résumé textuel -->
+  <div class="mt-8 bg-yellow-50 rounded-xl p-6 border border-yellow-200">
+    <h4 class="text-lg font-semibold text-gray-800 mb-3 flex items-center">
+      <svg class="w-5 h-5 text-yellow-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+      </svg>
+      Analyse des performances
+    </h4>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+      <div class="text-center">
+        <div class="text-2xl font-bold text-red-600">{{ stats.nouvelles || 0 }}</div>
+        <div class="text-gray-600">réclamations en attente d'assignation</div>
+      </div>
+      <div class="text-center">
+        <div class="text-2xl font-bold text-blue-600">{{ stats.enCours || 0 }}</div>
+        <div class="text-gray-600">réclamations en cours de traitement</div>
+      </div>
+      <div class="text-center">
+        <div class="text-2xl font-bold text-green-600">{{ stats.resolues || 0 }}</div>
+        <div class="text-gray-600">réclamations résolues avec succès</div>
+      </div>
+    </div>
+  </div>
+</div>

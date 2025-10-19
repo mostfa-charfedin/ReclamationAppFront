@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
-import { AuthService } from '../Services/auth.service';
+
 import { Router } from '@angular/router';
 import { LoginRequest } from '../Models/loginRequest';
+import { AuthService } from '../Services/auth.service';
+
 
 @Component({
   selector: 'app-login',
@@ -27,9 +29,15 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // Rediriger si déjà connecté
-    if (this.authService.isAuthenticated()) {
-      this.router.navigate(['/dashboard']);
+
+    if (this.authService.isAuthenticated() && this.authService.isAdmin()) {
+      this.router.navigate(['/admin/dashboard']);
+    }
+    if (this.authService.isAuthenticated() && this.authService.isTechnicien()) {
+      this.router.navigate(['/technicien/dashboard']);
+    }
+    if (this.authService.isAuthenticated() && this.authService.isUser()) {
+      this.router.navigate(['/user/dashboard']);
     }
   }
 
@@ -43,7 +51,15 @@ export class LoginComponent implements OnInit {
       this.authService.login(loginData).subscribe({
         next: (response) => {
           this.isLoading = false;
-          this.router.navigate(['/admin/stats']);
+            if (this.authService.isAuthenticated() && this.authService.isAdmin()) {
+      this.router.navigate(['/admin/dashboard']);
+    }
+    if (this.authService.isAuthenticated() && this.authService.isTechnicien()) {
+      this.router.navigate(['/technicien/dashboard']);
+    }
+    if (this.authService.isAuthenticated() && this.authService.isUser()) {
+      this.router.navigate(['/user/dashboard']);
+    }
         },
         error: (error) => {
           this.isLoading = false;
@@ -61,25 +77,5 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  // Méthodes pour les comptes de démo
-  fillDemoAdmin(): void {
-    this.loginForm.patchValue({
-      email: 'admin@example.com',
-      password: 'admin123'
-    });
-  }
 
-  fillDemoTechnicien(): void {
-    this.loginForm.patchValue({
-      email: 'tech@example.com',
-      password: 'tech123'
-    });
-  }
-
-  fillDemoUser(): void {
-    this.loginForm.patchValue({
-      email: 'user@example.com',
-      password: 'user123'
-    });
-  }
 }

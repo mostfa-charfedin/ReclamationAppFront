@@ -2,17 +2,18 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
-import { UserReclamationBoardComponent } from './user-reclamation-board/user-reclamation-board.component';
-import { UserReclamationComponent } from './user-reclamation/user-reclamation.component';
+
 
 const routes: Routes = [
+  { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
-  { path: 'user/dashboard', component: UserReclamationComponent },
-  { path: 'user/reclamations-board', component: UserReclamationBoardComponent },
-  { path: '', redirectTo: 'login', pathMatch: 'full' },
+  
+  { path: 'user', loadChildren: () => import('./user/user.module').then(m => m.UserModule) },
+  { path: 'technicien', loadChildren: () => import('./technicien/technicien.module').then(m => m.TechnicienModule) },
+  { path: 'admin', loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule) },
 
-  { path: '**', redirectTo: 'stats' }
+  { path: '**', redirectTo: '' }
 ];
 
 @NgModule({

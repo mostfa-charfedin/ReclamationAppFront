@@ -10,8 +10,7 @@ import { AuthService } from './Services/auth.service';
 import { NavbarComponent } from './navbar/navbar.component';
 import { RegisterComponent } from './register/register.component';
 import { LoginComponent } from './login/login.component';
-import { UserReclamationComponent } from './user-reclamation/user-reclamation.component';
-import { UserReclamationBoardComponent } from './user-reclamation-board/user-reclamation-board.component';
+
 
 @NgModule({
   declarations: [
@@ -19,8 +18,6 @@ import { UserReclamationBoardComponent } from './user-reclamation-board/user-rec
     NavbarComponent,
     RegisterComponent,
     LoginComponent,
-    UserReclamationComponent,
-
   ],
   imports: [
     BrowserModule,
@@ -29,7 +26,7 @@ import { UserReclamationBoardComponent } from './user-reclamation-board/user-rec
     FormsModule,
     DragDropModule,
     HttpClientModule,
-    UserReclamationBoardComponent,
+
   ],
   providers: [
     provideClientHydration(),
