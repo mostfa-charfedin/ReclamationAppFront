@@ -1,10 +1,10 @@
-<div class="bg-white rounded-2xl shadow-lg border border-gray-200 p-6">
+<div class="bg-white rounded-2xl shadow-lg border border-gray-200 p-4 sm:p-6">
   <!-- En-tête -->
-  <div class="flex items-center justify-between mb-6">
-    <h3 class="text-xl font-bold text-gray-800">Statistiques des réclamations</h3>
+  <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4 sm:mb-6">
+    <h3 class="text-lg sm:text-xl font-bold text-gray-800">Statistiques des réclamations</h3>
     <button (click)="loadStats()"
-            class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg text-sm font-semibold transition-colors duration-200 flex items-center">
-      <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            class="bg-red-500 hover:bg-red-600 text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg text-xs sm:text-sm font-semibold transition-colors duration-200 flex items-center w-full sm:w-auto justify-center">
+      <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 mr-1.5 sm:mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
       </svg>
       Actualiser
@@ -12,17 +12,17 @@
   </div>
 
   <!-- Cartes de statistiques -->
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-6 sm:mb-8">
     <!-- Réclamations totales -->
-    <div class="bg-gradient-to-r from-red-500 to-red-600 rounded-xl p-6 text-white shadow-lg">
+    <div class="bg-gradient-to-r from-red-500 to-red-600 rounded-xl p-4 sm:p-6 text-white shadow-lg">
       <div class="flex items-center justify-between">
         <div>
-          <p class="text-red-100 text-sm font-medium">Total</p>
-          <p class="text-3xl font-bold mt-2">{{ stats.total || 0 }}</p>
-          <p class="text-red-100 text-sm mt-1">Réclamations</p>
+          <p class="text-red-100 text-xs sm:text-sm font-medium">Total</p>
+          <p class="text-2xl sm:text-3xl font-bold mt-1 sm:mt-2">{{ stats.total || 0 }}</p>
+          <p class="text-red-100 text-xs sm:text-sm mt-1">Réclamations</p>
         </div>
-        <div class="w-12 h-12 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div class="w-10 h-10 sm:w-12 sm:h-12 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
+          <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
           </svg>
         </div>
@@ -30,15 +30,15 @@
     </div>
 
     <!-- Réclamations nouvelles -->
-    <div class="bg-gradient-to-r from-yellow-500 to-yellow-600 rounded-xl p-6 text-white shadow-lg">
+    <div class="bg-gradient-to-r from-yellow-500 to-yellow-600 rounded-xl p-4 sm:p-6 text-white shadow-lg">
       <div class="flex items-center justify-between">
         <div>
-          <p class="text-yellow-100 text-sm font-medium">Nouvelles</p>
-          <p class="text-3xl font-bold mt-2">{{ stats.nouvelles || 0 }}</p>
-          <p class="text-yellow-100 text-sm mt-1">En attente</p>
+          <p class="text-yellow-100 text-xs sm:text-sm font-medium">Nouvelles</p>
+          <p class="text-2xl sm:text-3xl font-bold mt-1 sm:mt-2">{{ stats.nouvelles || 0 }}</p>
+          <p class="text-yellow-100 text-xs sm:text-sm mt-1">En attente</p>
         </div>
-        <div class="w-12 h-12 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div class="w-10 h-10 sm:w-12 sm:h-12 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
+          <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
           </svg>
         </div>
@@ -46,15 +46,15 @@
     </div>
 
     <!-- Réclamations en cours -->
-    <div class="bg-gradient-to-r from-blue-500 to-blue-600 rounded-xl p-6 text-white shadow-lg">
+    <div class="bg-gradient-to-r from-blue-500 to-blue-600 rounded-xl p-4 sm:p-6 text-white shadow-lg">
       <div class="flex items-center justify-between">
         <div>
-          <p class="text-blue-100 text-sm font-medium">En cours</p>
-          <p class="text-3xl font-bold mt-2">{{ stats.enCours || 0 }}</p>
-          <p class="text-blue-100 text-sm mt-1">En traitement</p>
+          <p class="text-blue-100 text-xs sm:text-sm font-medium">En cours</p>
+          <p class="text-2xl sm:text-3xl font-bold mt-1 sm:mt-2">{{ stats.enCours || 0 }}</p>
+          <p class="text-blue-100 text-xs sm:text-sm mt-1">En traitement</p>
         </div>
-        <div class="w-12 h-12 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div class="w-10 h-10 sm:w-12 sm:h-12 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
+          <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
           </svg>
         </div>
@@ -62,15 +62,15 @@
     </div>
 
     <!-- Réclamations résolues -->
-    <div class="bg-gradient-to-r from-green-500 to-green-600 rounded-xl p-6 text-white shadow-lg">
+    <div class="bg-gradient-to-r from-green-500 to-green-600 rounded-xl p-4 sm:p-6 text-white shadow-lg">
       <div class="flex items-center justify-between">
         <div>
-          <p class="text-green-100 text-sm font-medium">Résolues</p>
-          <p class="text-3xl font-bold mt-2">{{ stats.resolues || 0 }}</p>
-          <p class="text-green-100 text-sm mt-1">Terminées</p>
+          <p class="text-green-100 text-xs sm:text-sm font-medium">Résolues</p>
+          <p class="text-2xl sm:text-3xl font-bold mt-1 sm:mt-2">{{ stats.resolues || 0 }}</p>
+          <p class="text-green-100 text-xs sm:text-sm mt-1">Terminées</p>
         </div>
-        <div class="w-12 h-12 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div class="w-10 h-10 sm:w-12 sm:h-12 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
+          <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
           </svg>
         </div>
@@ -79,25 +79,25 @@
   </div>
 
   <!-- Graphique et répartition -->
-  <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-    <!-- Graphique circulaire -->
-    <div class="bg-gray-50 rounded-xl p-6 border border-gray-200">
-      <h4 class="text-lg font-semibold text-gray-800 mb-4">Répartition par statut</h4>
-      <div class="flex items-center justify-center h-64">
-        <div *ngIf="chartData" class="relative">
-          <!-- Graphique simple avec des cercles -->
-          <div class="grid grid-cols-2 gap-4">
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
+    <!-- Graphique circulaire (simulation avec barres) -->
+    <div class="bg-gray-50 rounded-xl p-4 sm:p-6 border border-gray-200">
+      <h4 class="text-base sm:text-lg font-semibold text-gray-800 mb-3 sm:mb-4">Répartition par statut</h4>
+      <div class="flex items-center justify-center min-h-48 sm:min-h-64">
+        <div *ngIf="chartData" class="w-full">
+          <!-- Barre responsive : stackée sur mobile, 2 colonnes sur sm+ -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
             <div *ngFor="let item of chartData.labels; let i = index"
-                 class="flex items-center p-3 bg-white rounded-lg border border-gray-200">
-              <div class="w-4 h-4 rounded-full mr-3"
+                 class="flex flex-col sm:flex-row sm:items-center p-3 bg-white rounded-lg border border-gray-200 space-y-2 sm:space-y-0">
+              <div class="w-3 h-3 sm:w-4 sm:h-4 rounded-full mr-0 sm:mr-3 flex-shrink-0"
                    [style.background-color]="chartData.datasets[0].backgroundColor[i]"></div>
               <div class="flex-1">
-                <div class="flex justify-between items-center">
-                  <span class="text-sm font-medium text-gray-700">{{ item }}</span>
-                  <span class="text-lg font-bold text-gray-900">{{ chartData.datasets[0].data[i] }}</span>
+                <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center text-xs sm:text-sm">
+                  <span class="font-medium text-gray-700">{{ item }}</span>
+                  <span class="text-base sm:text-lg font-bold text-gray-900 mt-1 sm:mt-0">{{ chartData.datasets[0].data[i] }}</span>
                 </div>
-                <div class="w-full bg-gray-200 rounded-full h-2 mt-1">
-                  <div class="h-2 rounded-full"
+                <div class="w-full bg-gray-200 rounded-full h-1.5 sm:h-2 mt-1">
+                  <div class="h-1.5 sm:h-2 rounded-full transition-all duration-300"
                        [style.background-color]="chartData.datasets[0].backgroundColor[i]"
                        [style.width]="(chartData.datasets[0].data[i] / (stats.total || 1)) * 100 + '%'"></div>
                 </div>
@@ -105,38 +105,38 @@
             </div>
           </div>
         </div>
-        <div *ngIf="!chartData" class="text-center text-gray-500">
-          <svg class="w-12 h-12 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div *ngIf="!chartData" class="text-center text-gray-500 w-full">
+          <svg class="w-10 h-10 sm:w-12 sm:h-12 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
           </svg>
-          <p>Chargement des données...</p>
+          <p class="text-xs sm:text-sm">Chargement des données...</p>
         </div>
       </div>
     </div>
 
     <!-- Détails des statistiques -->
-    <div class="bg-gray-50 rounded-xl p-6 border border-gray-200">
-      <h4 class="text-lg font-semibold text-gray-800 mb-4">Détails des performances</h4>
-      <div class="space-y-4">
+    <div class="bg-gray-50 rounded-xl p-4 sm:p-6 border border-gray-200">
+      <h4 class="text-base sm:text-lg font-semibold text-gray-800 mb-3 sm:mb-4">Détails des performances</h4>
+      <div class="space-y-3 sm:space-y-4">
         <!-- Taux de résolution -->
-        <div class="bg-white p-4 rounded-lg border border-gray-200">
-          <div class="flex items-center justify-between mb-2">
-            <span class="text-sm font-medium text-gray-700">Taux de résolution</span>
-            <span class="text-lg font-bold text-green-600">
+        <div class="bg-white p-3 sm:p-4 rounded-lg border border-gray-200">
+          <div class="flex items-center justify-between mb-1 sm:mb-2">
+            <span class="text-xs sm:text-sm font-medium text-gray-700">Taux de résolution</span>
+            <span class="text-base sm:text-lg font-bold text-green-600">
               {{ stats.total ? ((stats.resolues / stats.total) * 100).toFixed(1) : 0 }}%
             </span>
           </div>
-          <div class="w-full bg-gray-200 rounded-full h-2">
-            <div class="h-2 rounded-full bg-green-500"
+          <div class="w-full bg-gray-200 rounded-full h-1.5 sm:h-2">
+            <div class="h-1.5 sm:h-2 rounded-full bg-green-500 transition-all duration-300"
                  [style.width]="(stats.total ? (stats.resolues / stats.total) * 100 : 0) + '%'"></div>
           </div>
         </div>
 
         <!-- Temps moyen de traitement -->
-        <div class="bg-white p-4 rounded-lg border border-gray-200">
-          <div class="flex items-center justify-between mb-2">
-            <span class="text-sm font-medium text-gray-700">Temps moyen de traitement</span>
-            <span class="text-lg font-bold text-blue-600">
+        <div class="bg-white p-3 sm:p-4 rounded-lg border border-gray-200">
+          <div class="flex items-center justify-between mb-1 sm:mb-2">
+            <span class="text-xs sm:text-sm font-medium text-gray-700">Temps moyen de traitement</span>
+            <span class="text-base sm:text-lg font-bold text-blue-600">
               {{ stats.tempsMoyenTraitement || 'N/A' }}
             </span>
           </div>
@@ -144,10 +144,10 @@
         </div>
 
         <!-- Réclamations ce mois -->
-        <div class="bg-white p-4 rounded-lg border border-gray-200">
-          <div class="flex items-center justify-between mb-2">
-            <span class="text-sm font-medium text-gray-700">Réclamations ce mois</span>
-            <span class="text-lg font-bold text-red-600">
+        <div class="bg-white p-3 sm:p-4 rounded-lg border border-gray-200">
+          <div class="flex items-center justify-between mb-1 sm:mb-2">
+            <span class="text-xs sm:text-sm font-medium text-gray-700">Réclamations ce mois</span>
+            <span class="text-base sm:text-lg font-bold text-red-600">
               {{ stats.ceMois || 0 }}
             </span>
           </div>
@@ -155,16 +155,16 @@
         </div>
 
         <!-- Satisfaction client -->
-        <div class="bg-white p-4 rounded-lg border border-gray-200">
-          <div class="flex items-center justify-between mb-2">
-            <span class="text-sm font-medium text-gray-700">Satisfaction client</span>
-            <span class="text-lg font-bold text-yellow-600">
+        <div class="bg-white p-3 sm:p-4 rounded-lg border border-gray-200">
+          <div class="flex items-center justify-between mb-1 sm:mb-2">
+            <span class="text-xs sm:text-sm font-medium text-gray-700">Satisfaction client</span>
+            <span class="text-base sm:text-lg font-bold text-yellow-600">
               {{ stats.satisfaction || 'N/A' }}
             </span>
           </div>
-          <div class="flex items-center space-x-1">
+          <div class="flex items-center space-x-0.5 sm:space-x-1">
             <svg *ngFor="let i of [1,2,3,4,5]"
-                 class="w-4 h-4"
+                 class="w-3.5 h-3.5 sm:w-4 sm:h-4"
                  [class.text-yellow-400]="i <= (stats.satisfaction || 0)"
                  [class.text-gray-300]="i > (stats.satisfaction || 0)"
                  fill="currentColor" viewBox="0 0 20 20">
@@ -177,25 +177,25 @@
   </div>
 
   <!-- Résumé textuel -->
-  <div class="mt-8 bg-yellow-50 rounded-xl p-6 border border-yellow-200">
-    <h4 class="text-lg font-semibold text-gray-800 mb-3 flex items-center">
-      <svg class="w-5 h-5 text-yellow-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+  <div class="mt-6 sm:mt-8 bg-yellow-50 rounded-xl p-4 sm:p-6 border border-yellow-200">
+    <h4 class="text-base sm:text-lg font-semibold text-gray-800 mb-2 sm:mb-3 flex items-center">
+      <svg class="w-4 h-4 sm:w-5 sm:h-5 text-yellow-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
       </svg>
       Analyse des performances
     </h4>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4 text-xs sm:text-sm">
       <div class="text-center">
-        <div class="text-2xl font-bold text-red-600">{{ stats.nouvelles || 0 }}</div>
-        <div class="text-gray-600">réclamations en attente d'assignation</div>
+        <div class="text-xl sm:text-2xl font-bold text-red-600">{{ stats.nouvelles || 0 }}</div>
+        <div class="text-gray-600 mt-1">réclamations en attente d'assignation</div>
       </div>
       <div class="text-center">
-        <div class="text-2xl font-bold text-blue-600">{{ stats.enCours || 0 }}</div>
-        <div class="text-gray-600">réclamations en cours de traitement</div>
+        <div class="text-xl sm:text-2xl font-bold text-blue-600">{{ stats.enCours || 0 }}</div>
+        <div class="text-gray-600 mt-1">réclamations en cours de traitement</div>
       </div>
       <div class="text-center">
-        <div class="text-2xl font-bold text-green-600">{{ stats.resolues || 0 }}</div>
-        <div class="text-gray-600">réclamations résolues avec succès</div>
+        <div class="text-xl sm:text-2xl font-bold text-green-600">{{ stats.resolues || 0 }}</div>
+        <div class="text-gray-600 mt-1">réclamations résolues avec succès</div>
       </div>
     </div>
   </div>
