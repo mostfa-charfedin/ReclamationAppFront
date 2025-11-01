@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class ReclamationService {
 
- private apiUrl = 'http://localhost:8083/api/reclamations';
+ private apiUrl = 'https://sicam-app.onrender.com/api/reclamations';
 
   constructor(private http: HttpClient) {}
 

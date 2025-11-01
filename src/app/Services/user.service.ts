@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 })
 export class UserService {
 
-private apiUrl = 'http://localhost:8083/api/users';
+private apiUrl = 'https://sicam-app.onrender.com/api/users';
 
   constructor(private http: HttpClient) {}
 

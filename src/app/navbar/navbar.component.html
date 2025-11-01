@@ -1,16 +1,14 @@
-<nav class="bg-white shadow-lg border-b border-gray-200 sticky top-0 z-50">
+<nav class="bg-white shadow-lg border-b border-gray-200 sticky top-0 z-50" *ngIf="currentUser">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex justify-between items-center h-16">
 
       <!-- Logo et Nom de l'application -->
+      <div class="md:flex items-center space-x-3">
+        <div class="flex space-x-2">
+          <img src="/assets/logo.png" width="100px" height="50px" alt="Logo">
+        </div>
 
-
-      <!-- Menu Desktop -->
-      <div class=" md:flex items-center space-x-3">
- <div class="flex  space-x-2" >
-        <img src="/assets/logo.png" width="100px"  height="50px" alt="Logo">
-      </div>
-        <!-- Tableau de bord Principal -->
+        <!-- Tableau de bord Principal - Visible pour tous les rôles -->
         <a routerLink="/admin/stats"
            routerLinkActive="bg-red-50 text-red-700 border-red-500"
            class="px-4 py-2 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-100 hover:text-gray-900 border border-transparent transition-all duration-200 flex items-center">
@@ -20,8 +18,9 @@
           Tableau de bord
         </a>
 
-        <!-- Déposer une réclamation (User) -->
-        <a routerLink="/user/dashboard"
+        <!-- Déposer une réclamation (Visible pour USER seulement) -->
+        <a *ngIf="isUser()"
+           routerLink="/user/dashboard"
            routerLinkActive="bg-red-50 text-red-700 border-red-500"
            class="px-4 py-2 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-100 hover:text-gray-900 border border-transparent transition-all duration-200 flex items-center">
           <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -30,8 +29,9 @@
           Déposer une réclamation
         </a>
 
-        <!-- Tableau Kanban Utilisateur -->
-        <a routerLink="reclamation-board" routerLinkActive="active"
+        <!-- Tableau Kanban Utilisateur (Visible pour USER seulement) -->
+        <a *ngIf="isUser()"
+           routerLink="/user/reclamation-board"
            routerLinkActive="bg-red-50 text-red-700 border-red-500"
            class="px-4 py-2 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-100 hover:text-gray-900 border border-transparent transition-all duration-200 flex items-center">
           <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -40,8 +40,9 @@
           Mes réclamations
         </a>
 
-        <!-- Tableau de bord Admin -->
-        <a routerLink="/admin/dashboard"
+        <!-- Tableau de bord Admin (Visible pour ADMIN seulement) -->
+        <a *ngIf="isAdmin()"
+           routerLink="/admin/dashboard"
            routerLinkActive="bg-blue-50 text-blue-700 border-blue-500"
            class="px-4 py-2 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-100 hover:text-gray-900 border border-transparent transition-all duration-200 flex items-center">
           <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -50,8 +51,9 @@
           Gestion Reclamation
         </a>
 
-        <!-- Tableau de bord Technicien -->
-        <a routerLink="/technicien/dashboard"
+        <!-- Tableau de bord Technicien (Visible pour TECHNICIEN seulement) -->
+        <a *ngIf="isTechnicien()"
+           routerLink="/technicien/dashboard"
            routerLinkActive="bg-yellow-50 text-yellow-700 border-yellow-500"
            class="px-4 py-2 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-100 hover:text-gray-900 border border-transparent transition-all duration-200 flex items-center">
           <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -61,19 +63,16 @@
           Technicien dashboard
         </a>
 
-        <!-- Tableau Kanban Technicien -->
-        <a routerLink="/technicien/reclamation-board"
+        <!-- Tableau Kanban Technicien (Visible pour TECHNICIEN seulement) -->
+        <a *ngIf="isTechnicien()"
+           routerLink="/technicien/reclamation-board"
            routerLinkActive="bg-yellow-50 text-yellow-700 border-yellow-500"
            class="px-4 py-2 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-100 hover:text-gray-900 border border-transparent transition-all duration-200 flex items-center">
           <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
           </svg>
           Technicien Kanban
         </a>
-
-
-
       </div>
 
       <!-- User Menu & Mobile Button -->
@@ -98,7 +97,7 @@
             <div class="w-8 h-8 bg-red-600 rounded-full flex items-center justify-center text-white text-sm font-semibold">
               {{ getUserInitials() }}
             </div>
-            <span class="hidden md:block text-sm font-medium text-gray-700">{{ currentUser?.nom }}</span>
+            <span class="hidden md:block text-sm font-medium text-gray-700">{{ currentUser?.prenom }} {{ currentUser?.nom }}</span>
             <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
             </svg>
@@ -108,7 +107,7 @@
           <div class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
             <div class="py-2">
               <div class="px-4 py-2 border-b border-gray-100">
-                <p class="text-sm font-medium text-gray-900">{{ currentUser?.nom }}</p>
+                <p class="text-sm font-medium text-gray-900">{{ currentUser?.prenom }} {{ currentUser?.nom }}</p>
                 <p class="text-xs text-gray-500">{{ currentUser?.email }}</p>
                 <p class="text-xs font-medium mt-1"
                    [ngClass]="{
@@ -160,7 +159,7 @@
     <div class="px-4 py-3 space-y-2">
 
       <!-- Tableau de bord -->
-      <a routerLink="/dashboard"
+      <a routerLink="/admin/stats"
          (click)="toggleMobileMenu()"
          class="block px-3 py-3 rounded-lg text-base font-medium text-gray-700 hover:bg-gray-100 transition-colors duration-150 flex items-center">
         <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -169,8 +168,9 @@
         Tableau de bord
       </a>
 
-
-      <a routerLink="/user/dashboard"
+      <!-- User specific links -->
+      <a *ngIf="isUser()"
+         routerLink="/user/dashboard"
          (click)="toggleMobileMenu()"
          class="block px-3 py-3 rounded-lg text-base text-gray-700 hover:bg-red-50 transition-colors duration-150 flex items-center">
         <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -178,8 +178,9 @@
         </svg>
         Déposer une réclamation
       </a>
-      <!-- Espace Utilisateur -->
-      <a routerLink="/user/reclamation-board"
+
+      <a *ngIf="isUser()"
+         routerLink="/user/reclamation-board"
          (click)="toggleMobileMenu()"
          class="block px-3 py-3 rounded-lg text-base text-gray-700 hover:bg-red-50 transition-colors duration-150 flex items-center">
         <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -188,18 +189,30 @@
         Mes réclamations (Kanban)
       </a>
 
-       <!-- Espace Technicien -->
-      <a routerLink="/technicien/dashboard"
+      <!-- Technicien specific links -->
+      <a *ngIf="isTechnicien()"
+         routerLink="/technicien/dashboard"
          (click)="toggleMobileMenu()"
-         class="block px-3 py-3 rounded-lg text-base text-gray-700 hover:bg-blue-50 transition-colors duration-150 flex items-center">
+         class="block px-3 py-3 rounded-lg text-base text-gray-700 hover:bg-yellow-50 transition-colors duration-150 flex items-center">
         <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
         </svg>
         Tableau de bord Technicien
       </a>
 
-      <!-- Espace Admin -->
-      <a routerLink="/admin/dashboard"
+      <a *ngIf="isTechnicien()"
+         routerLink="/technicien/reclamation-board"
+         (click)="toggleMobileMenu()"
+         class="block px-3 py-3 rounded-lg text-base text-gray-700 hover:bg-yellow-50 transition-colors duration-150 flex items-center">
+        <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+        </svg>
+        Tableau Technicien (Kanban)
+      </a>
+
+      <!-- Admin specific links -->
+      <a *ngIf="isAdmin()"
+         routerLink="/admin/dashboard"
          (click)="toggleMobileMenu()"
          class="block px-3 py-3 rounded-lg text-base text-gray-700 hover:bg-blue-50 transition-colors duration-150 flex items-center">
         <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -208,25 +221,6 @@
         Tableau de bord Admin
       </a>
 
-      <a routerLink="/admin/stats"
-         (click)="toggleMobileMenu()"
-         class="block px-3 py-3 rounded-lg text-base text-gray-700 hover:bg-blue-50 transition-colors duration-150 flex items-center">
-        <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
-        </svg>
-        Statistiques Admin
-      </a>
-
-      <!-- Espace Technicien -->
-
- <a routerLink="/technicien/reclamation-board"
-         (click)="toggleMobileMenu()"
-         class="block px-3 py-3 rounded-lg text-base text-gray-700 hover:bg-blue-50 transition-colors duration-150 flex items-center">
-        <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
-        </svg>
-        Tableau Technicien (Kanban)
-      </a>
       <!-- Déconnexion Mobile -->
       <div class="border-t border-gray-200 pt-3 mt-3">
         <button (click)="logout(); toggleMobileMenu()"

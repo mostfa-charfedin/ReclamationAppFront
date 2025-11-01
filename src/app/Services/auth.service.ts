@@ -14,7 +14,7 @@ import { User } from '../Models/user';
 })
 
 export class AuthService {
-  private apiUrl = 'http://localhost:8083/api/auth';
+  private apiUrl = 'https://sicam-app.onrender.com/api/auth';
   private currentUserSubject = new BehaviorSubject<User | null>(null);
   public currentUser$ = this.currentUserSubject.asObservable();
 

@@ -11,7 +11,6 @@ const routes: Routes = [
         { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
         { path: 'dashboard', component: UserReclamationComponent },
         { path: 'reclamation-board', component: UserReclamationBoardComponent },
-        { path: '**', redirectTo: '' }
 
   ]
 }

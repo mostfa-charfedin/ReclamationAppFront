@@ -8,7 +8,7 @@ import { ReclamationService } from '../../Services/reclamathion.service';
   selector: 'app-user-reclamation-board',
   templateUrl: './user-reclamation-board.component.html',
   styleUrl: './user-reclamation-board.component.scss',
- 
+
 })
 export class UserReclamationBoardComponent implements OnInit {
   reclamations: any[] = [];

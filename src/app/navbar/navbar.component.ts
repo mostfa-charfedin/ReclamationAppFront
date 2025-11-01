@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../Services/auth.service';
+import { User } from '../Models/user';
+import { Subscription } from 'rxjs';
 
 
 @Component({
@@ -8,9 +10,10 @@ import { AuthService } from '../Services/auth.service';
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.scss'
 })
-export class NavbarComponent implements OnInit {
+export class NavbarComponent implements OnInit, OnDestroy {
   isMobileMenuOpen = false;
-  currentUser: any;
+  currentUser: User | null = null;
+  private userSubscription: Subscription | undefined;
 
   constructor(
     private authService: AuthService,
@@ -18,7 +21,22 @@ export class NavbarComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    // Subscribe to currentUser$ observable to get real-time updates
+    this.userSubscription = this.authService.currentUser$.subscribe(
+      (user) => {
+        this.currentUser = user;
+      }
+    );
+
+    // Also get the current value immediately
     this.currentUser = this.authService.getCurrentUser();
+  }
+
+  ngOnDestroy() {
+    // Clean up subscription to prevent memory leaks
+    if (this.userSubscription) {
+      this.userSubscription.unsubscribe();
+    }
   }
 
   toggleMobileMenu() {
@@ -26,20 +44,26 @@ export class NavbarComponent implements OnInit {
   }
 
   getUserInitials(): string {
-    if (this.currentUser?.nom) {
-      return this.currentUser.nom
-        .split(' ')
-        .map((name: string) => name[0])
-        .join('')
-        .toUpperCase()
-        .substring(0, 2);
+    if (this.currentUser?.nom && this.currentUser?.prenom) {
+      return (this.currentUser.prenom[0] + this.currentUser.nom[0]).toUpperCase();
     }
     return 'US';
   }
 
   logout() {
+    this.authService.logout();
+  }
 
-  this.authService.logout();
+  // Helper methods to check user roles
+  isAdmin(): boolean {
+    return this.authService.isAdmin();
+  }
 
+  isTechnicien(): boolean {
+    return this.authService.isTechnicien();
+  }
+
+  isUser(): boolean {
+    return this.authService.isUser();
   }
 }
