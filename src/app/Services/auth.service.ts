@@ -14,7 +14,8 @@ import { User } from '../Models/user';
 })
 
 export class AuthService {
-  private apiUrl = 'https://sicam-app.onrender.com/api/auth';
+  //private apiUrl = 'https://sicam-app.onrender.com/api/auth';
+  private apiUrl = 'http://localhost:8083/api/auth';
   private currentUserSubject = new BehaviorSubject<User | null>(null);
   public currentUser$ = this.currentUserSubject.asObservable();
 
@@ -149,4 +150,13 @@ export class AuthService {
       return true;
     }
   }
+
+  hasRole(requiredRoles: string[]): boolean {
+  const userRole = this.getCurrentUser()?.role;
+  return requiredRoles.includes(userRole || '');
+}
+hasAnyRole(...roles: string[]): boolean {
+  const userRole = this.getCurrentUser()?.role;
+  return roles.includes(userRole || '');
+}
 }

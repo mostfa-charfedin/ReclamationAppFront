@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { ReclamationService } from '../../Services/reclamathion.service';
 import { AuthService } from '../../Services/auth.service';
+import { ReclamationService } from '../../Services/reclamathion.service';
 
 @Component({
   selector: 'app-technicien-dashboard',
   templateUrl: './technicien-dashboard.component.html',
-  styleUrl: './technicien-dashboard.component.scss'
+  styleUrls: ['./technicien-dashboard.component.scss']
 })
 export class TechnicienDashboardComponent implements OnInit {
   reclamations: any[] = [];
@@ -15,6 +15,7 @@ export class TechnicienDashboardComponent implements OnInit {
   filterStatut: string = 'TOUS';
   isDetailsModalOpen: boolean = false;
   newComment: string = '';
+  isLoading: boolean = false;
 
   statusOptions = [
     { value: 'ASSIGNEE', label: 'Assignée' },
@@ -28,31 +29,49 @@ export class TechnicienDashboardComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.currentTechnicien = this.authService.getCurrentUser();
+    this.loadCurrentTechnicien();
     this.loadReclamations();
   }
 
-  loadReclamations() {
-    if (this.currentTechnicien) {
-      console.log('ID du technicien actuel:', this.currentTechnicien.id);
-      this.reclamationService.getReclamationsByTechnicien(this.currentTechnicien.id).subscribe(
-        (data: any[]) => {
-          this.reclamations = data;
-          this.applyFilters();
-          console.log('Réclamations du technicien:', data);
-        },
-        error => {
-          console.error('Erreur lors du chargement des réclamations:', error);
-        }
-      );
+  loadCurrentTechnicien() {
+    this.currentTechnicien = this.authService.getCurrentUser();
+    if (!this.currentTechnicien) {
+      console.error('Aucun technicien connecté');
     }
   }
 
-  applyFilters() {
-    this.filteredReclamations = this.reclamations.filter(reclamation => {
-      if (this.filterStatut === 'TOUS') return true;
-      return reclamation.statut === this.filterStatut;
+  loadReclamations() {
+    if (!this.currentTechnicien || !this.currentTechnicien.id) {
+      console.error('ID du technicien non disponible');
+      return;
+    }
+
+    this.isLoading = true;
+
+    this.reclamationService.getReclamationsByTechnicien(this.currentTechnicien.id).subscribe({
+      next: (data: any[]) => {
+        this.reclamations = data || [];
+        this.applyFilters();
+        this.isLoading = false;
+        console.log('Réclamations chargées:', this.reclamations);
+      },
+      error: (error) => {
+        console.error('Erreur lors du chargement des réclamations:', error);
+        this.isLoading = false;
+        this.reclamations = [];
+        this.filteredReclamations = [];
+      }
     });
+  }
+
+  applyFilters() {
+    if (this.filterStatut === 'TOUS') {
+      this.filteredReclamations = [...this.reclamations];
+    } else {
+      this.filteredReclamations = this.reclamations.filter(
+        reclamation => reclamation.statut === this.filterStatut
+      );
+    }
   }
 
   onFilterChange(event: any) {
@@ -73,6 +92,21 @@ export class TechnicienDashboardComponent implements OnInit {
     }
   }
 
+  getStatusDisplay(statut: string): string {
+    switch (statut) {
+      case 'ASSIGNEE':
+        return 'Assignée';
+      case 'EN_COURS':
+        return 'En cours';
+      case 'RESOLUE':
+        return 'Résolue';
+      case 'TOUS':
+        return 'Toutes';
+      default:
+        return statut;
+    }
+  }
+
   getStatusButtonClass(statut: string): string {
     switch (statut) {
       case 'ASSIGNEE':
@@ -87,15 +121,33 @@ export class TechnicienDashboardComponent implements OnInit {
   }
 
   updateStatus(reclamation: any) {
-    this.reclamationService.updateReclamationStatus(reclamation.id, reclamation.statut).subscribe(
-      (response: any) => {
+    console.log('Mise à jour du statut:', reclamation.statut, 'pour la réclamation:', reclamation.id);
+
+    this.reclamationService.updateReclamationStatus(reclamation.id, reclamation.statut).subscribe({
+      next: (response: any) => {
+        console.log('Statut mis à jour avec succès:', response);
+
+        // Mettre à jour la réclamation localement avec la réponse du serveur
+        const index = this.reclamations.findIndex(r => r.id === reclamation.id);
+        if (index !== -1) {
+          this.reclamations[index] = { ...this.reclamations[index], ...response };
+        }
+
         this.applyFilters();
+
+        // Ajouter des commentaires automatiques
+        if (reclamation.statut === 'EN_COURS') {
+          this.addAutoComment(reclamation, 'Traitement démarré par le technicien');
+        } else if (reclamation.statut === 'RESOLUE') {
+          this.addAutoComment(reclamation, 'Réclamation résolue avec succès');
+        }
       },
-      error => {
-        console.error('Erreur lors de la mise à jour:', error);
-        this.loadReclamations(); // Recharger en cas d'erreur
+      error: (error) => {
+        console.error('Erreur lors de la mise à jour du statut:', error);
+        // Recharger les données en cas d'erreur
+        this.loadReclamations();
       }
-    );
+    });
   }
 
   updateStatusFromModal(statut: string) {
@@ -116,9 +168,21 @@ export class TechnicienDashboardComponent implements OnInit {
   }
 
   openDetailsModal(reclamation: any) {
-    this.selectedReclamation = reclamation;
-    this.isDetailsModalOpen = true;
-    document.body.style.overflow = 'hidden';
+    // Recharger la réclamation pour avoir les données à jour
+    this.reclamationService.getReclamationById(reclamation.id).subscribe({
+      next: (data: any) => {
+        this.selectedReclamation = data;
+        this.isDetailsModalOpen = true;
+        document.body.style.overflow = 'hidden';
+      },
+      error: (error) => {
+        console.error('Erreur lors du chargement des détails:', error);
+        // En cas d'erreur, utiliser les données locales
+        this.selectedReclamation = reclamation;
+        this.isDetailsModalOpen = true;
+        document.body.style.overflow = 'hidden';
+      }
+    });
   }
 
   closeDetailsModal() {
@@ -126,14 +190,81 @@ export class TechnicienDashboardComponent implements OnInit {
     this.selectedReclamation = null;
     this.newComment = '';
     document.body.style.overflow = 'auto';
+
+    // Recharger les réclamations pour avoir les données à jour
+    this.loadReclamations();
   }
 
   addComment() {
-    if (this.selectedReclamation && this.newComment.trim()) {
-      // Implémentez l'ajout de commentaire
-      console.log('Nouveau commentaire:', this.newComment);
-      this.newComment = '';
+    if (!this.selectedReclamation || !this.newComment.trim()) {
+      return;
     }
+
+    const commentaireData = {
+      commentaire: this.newComment.trim(),
+      technicienId: this.currentTechnicien.id
+    };
+
+    this.reclamationService.addComment(this.selectedReclamation.id, commentaireData).subscribe({
+      next: (response: any) => {
+        console.log('Commentaire ajouté avec succès:', response);
+
+        // Ajouter le commentaire localement pour un affichage immédiat
+        const nouveauCommentaire = {
+          id: response.id || Date.now().toString(),
+          commentaire: this.newComment.trim(),
+          technicien: {
+            id: this.currentTechnicien.id,
+            prenom: this.currentTechnicien.prenom,
+            nom: this.currentTechnicien.nom
+          },
+          date: new Date()
+        };
+
+        if (!this.selectedReclamation.commentaires) {
+          this.selectedReclamation.commentaires = [];
+        }
+
+        this.selectedReclamation.commentaires.push(nouveauCommentaire);
+        this.newComment = '';
+      },
+      error: (error) => {
+        console.error('Erreur lors de l\'ajout du commentaire:', error);
+        alert('Erreur lors de l\'enregistrement du commentaire. Veuillez réessayer.');
+      }
+    });
+  }
+
+  addAutoComment(reclamation: any, message: string) {
+    const commentaireData = {
+      commentaire: message,
+      technicienId: this.currentTechnicien.id
+    };
+
+    this.reclamationService.addComment(reclamation.id, commentaireData).subscribe({
+      next: (response: any) => {
+        console.log('Commentaire automatique ajouté:', response);
+
+        // Ajouter le commentaire localement
+        if (!reclamation.commentaires) {
+          reclamation.commentaires = [];
+        }
+
+        reclamation.commentaires.push({
+          id: response.id || Date.now().toString(),
+          commentaire: message,
+          technicien: {
+            id: this.currentTechnicien.id,
+            prenom: this.currentTechnicien.prenom,
+            nom: this.currentTechnicien.nom
+          },
+          date: new Date()
+        });
+      },
+      error: (error) => {
+        console.error('Erreur lors de l\'ajout du commentaire automatique:', error);
+      }
+    });
   }
 
   getStats() {

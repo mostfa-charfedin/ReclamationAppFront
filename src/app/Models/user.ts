@@ -3,6 +3,6 @@ export interface User {
   nom: string;
   prenom: string;
   email: string;
-  role: string;
+   role: 'USER' | 'TECHNICIEN' | 'ADMIN'
   active: boolean;
 }

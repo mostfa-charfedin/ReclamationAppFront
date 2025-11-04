@@ -11,6 +11,10 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { RegisterComponent } from './register/register.component';
 import { LoginComponent } from './login/login.component';
 
+import { CountActivePipe } from './Pipes/count-active.pipe';
+import { ForbiddenComponent } from './forbidden/forbidden.component';
+
+
 
 @NgModule({
   declarations: [
@@ -18,6 +22,8 @@ import { LoginComponent } from './login/login.component';
     NavbarComponent,
     RegisterComponent,
     LoginComponent,
+    CountActivePipe,
+    ForbiddenComponent,
   ],
   imports: [
     BrowserModule,
@@ -27,6 +33,10 @@ import { LoginComponent } from './login/login.component';
     DragDropModule,
     HttpClientModule,
 
+
+  ],
+  exports: [
+    CountActivePipe
   ],
   providers: [
     provideClientHydration(),

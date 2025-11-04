@@ -11,12 +11,16 @@ import { AdminStatsComponent } from './admin-stats/admin-stats.component';
 
 import { CommonModule } from '@angular/common';
 
+import { AppModule } from '../app.module';
+import { UserManagementComponent } from './user-management/user-management.component';
+
 
 @NgModule({
   declarations: [
     AdminComponent,
     AdminDashboardComponent,
     AdminStatsComponent,
+    UserManagementComponent,
   ],
   imports: [
     CommonModule,
@@ -24,8 +28,7 @@ import { CommonModule } from '@angular/common';
     ReactiveFormsModule,
     FormsModule,
     DragDropModule,
-
-
+   
   ]
 
 })
