@@ -296,7 +296,7 @@
         <div class="bg-gray-50 p-4 rounded-lg" *ngIf="selectedReclamation.commentaires && selectedReclamation.commentaires.length > 0">
           <h4 class="font-semibold mb-2">Commentaires</h4>
           <div *ngFor="let comment of selectedReclamation.commentaires" class="mb-2 p-2 bg-white rounded">
-            <div class="text-xs text-gray-500">{{ comment.date | date:'dd/MM/yyyy HH:mm' }} - {{ comment.technicien?.prenom }} {{ comment.technicien?.nom }}</div>
+            <div class="text-xs text-gray-500">{{ comment.date | date:'dd/MM/yyyy HH:mm' }} - {{ comment.technicien.prenom }} {{ comment.technicien.nom }}</div>
             <p class="text-sm">{{ comment.commentaire }}</p>
           </div>
         </div>
@@ -331,7 +331,7 @@
     <div class="p-6 overflow-y-auto max-h-[70vh]" *ngIf="selectedReclamation">
       <div class="mb-4 p-4 bg-yellow-50 rounded-lg">
         <p class="font-semibold">{{ selectedReclamation.titre }}</p>
-        <p class="text-sm text-gray-600">{{ selectedReclamation.user?.prenom }} {{ selectedReclamation.user?.nom }}</p>
+        <p class="text-sm text-gray-600">{{ selectedReclamation.user.prenom }} {{ selectedReclamation.user.nom }}</p>
       </div>
 
       <div class="mb-4">
